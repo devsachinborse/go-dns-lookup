@@ -1,0 +1,82 @@
+<!-- internal/templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DNS Lookup Tool</title>
+    <link href="../static/styles.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://unpkg.com/htmx.org@1.8.4"></script>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-white text-neutral-900 p-4 shadow-lg">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="flex items-center">
+          <img
+            src="./static/falcon-removebg-preview.png"
+            alt="Logo"
+            class="h-10"
+          />
+          <a href="/" class="text-2xl font-extrabold ml-4">Falcon </a>
+        </div>
+        <i class="fa fa-github" id="icon"></i>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4">
+      <h1 class="text-2xl font-bold mb-4">Welcome to the DNS Lookup Tool</h1>
+      <p class="mb-4">
+        This web application allows you to perform DNS lookups for multiple
+        domain names. You can retrieve various DNS records such as A, AAAA,
+        CNAME, NS, and MX. Enter domain names separated by commas to view their
+        DNS records.
+      </p>
+      <form
+        id="dns-form"
+        action="/dns-lookup"
+        method="post"
+        class="bg-white p-4 rounded shadow-md"
+        hx-post="/dns-lookup"
+        hx-target="#results"
+        hx-swap="innerHTML"
+      >
+        <label for="domains" class="block text-sm font-medium mb-2"
+          >Enter Domain Names (separated by commas):</label
+        >
+        <input
+          type="text"
+          id="domains"
+          name="domains"
+          class="border border-gray-300 rounded p-2 w-full"
+          required
+        />
+        <button
+          type="submit"
+          class="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
+        >
+          Lookup
+        </button>
+      </form>
+
+      <!-- Results Container -->
+      <div id="results" class="mt-4"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white fixed p-4 mt-8">
+      <div class="container mx-auto text-center">
+        <p>&copy; 2024 DNS Lookup Tool. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

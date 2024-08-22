@@ -1,0 +1,50 @@
+<!-- internal/templates/dns_results.html -->
+<table class="table-auto w-full text-left">
+    <thead>
+        <tr>
+            <th class="px-4 py-2">Domain Type</th>
+            <th class="px-4 py-2">Domain Name</th>
+            <th class="px-4 py-2">IP Address / Record</th>
+            <th class="px-4 py-2">TTL</th>
+            <th class="px-4 py-2">Record Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{range $index, $record := .}}
+        <tr class="{{if mod $index 2}}bg-gray-100{{else}}bg-white{{end}}">
+            <td class="px-4 py-2">{{.DomainType}}</td>
+            <td class="px-4 py-2">{{.DomainName}}</td>
+            <td class="px-4 py-2 {{if mod $index 2}}bg-blue-500 text-white{{else}}bg-green-500 text-white{{end}}">{{.IPAddress}}</td>
+            <td class="px-4 py-2">{{.TTL}}</td>
+            <td class="px-4 py-2">{{.RecordType}}</td>
+          
+        </tr>
+        {{else}}
+        <tr>
+            <td colspan="5" class="px-4 py-2 text-center">No DNS records found</td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

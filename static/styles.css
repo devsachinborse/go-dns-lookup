@@ -1,0 +1,27 @@
+/* static/styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* nav img {
+    max-height: 48px;
+}
+    */
+
+#icon{
+    font-size:36px;
+    cursor: pointer;
+    
+} 
+
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
