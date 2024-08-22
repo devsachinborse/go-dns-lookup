@@ -10,9 +10,18 @@ A simple DNS Lookup Tool built using Golang and HTMX. This tool allows users to 
 - Footer with copyright information.
 
 ## Run this project
+#### Local
 ```
 go mod tidy
 make run
+```
+#### Docker
+```
+# Build the Docker image
+docker build -t my-dns-lookup-tool .
+
+# Run the Docker container
+docker run -p 9001:9001 my-dns-lookup-tool
 
 ```
 ![Screenshot 2024-08-22 170138](https://github.com/user-attachments/assets/3f0b1348-fca7-42d1-a3e3-8aa786d36f43)
