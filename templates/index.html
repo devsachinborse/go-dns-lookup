@@ -68,6 +68,13 @@
         >
           Lookup
         </button>
+        <button
+          type="button"
+          class="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
+          onclick="exportToCSV()"
+        >
+          Export to CSV
+        </button>
       </form>
 
       <!-- Results Container -->
@@ -80,5 +87,12 @@
         <p>&copy; 2024 Falcon by Sachin Borse. All rights reserved.</p>
       </div>
     </footer>
+
+    <script>
+      function exportToCSV() {
+        // Make a fetch request to the endpoint
+        window.location.href = "/export"; 
+      }
+    </script>
   </body>
 </html>

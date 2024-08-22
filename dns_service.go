@@ -1,6 +1,10 @@
 package main
 
 import (
+	"encoding/csv"
+	"os"
+	"strconv"
+
 	"github.com/miekg/dns"
 )
 
@@ -74,4 +78,33 @@ func LookupDNS(domain string) ([]DNSRecord, error) {
 	}
 
 	return records, nil
+}
+
+
+//export to csv
+func ExportToCSV(records []DNSRecord, filePath string) error {
+	file, err := os.Create(filePath)
+	if err != nil {
+		return err
+	}
+
+	defer file.Close()
+
+	writer := csv.NewWriter(file)
+	defer writer.Flush()
+
+	//write the header
+	writer.Write([]string{"DomainType", "DomainName", "IPAddress", "TTL", "RecordType"})
+
+	//write the DNS records
+	for _, record := range records {
+		writer.Write([]string{
+			record.DomainType,
+			record.DomainName,
+			record.IPAddress,
+			strconv.FormatUint(uint64(record.TTL), 10), // Convert TTL to string
+			record.RecordType,
+		})
+	}
+	return nil
 }
