@@ -12,7 +12,7 @@ A simple DNS Lookup Tool built using Golang and HTMX. This tool allows users to 
 ## Run this project
 ```
 go mod tidy
-go run cmd/main.go
+make run
 
 ```
 ![Screenshot 2024-08-22 170138](https://github.com/user-attachments/assets/3f0b1348-fca7-42d1-a3e3-8aa786d36f43)
