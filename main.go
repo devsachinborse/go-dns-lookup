@@ -11,13 +11,16 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// Declare allRecords 
 var allRecords []DNSRecord
 
-//handler
-
+// DNSLookupHandler handles DNS lookups and stores results in allRecords
 func DNSLookupHandler(w http.ResponseWriter, r *http.Request, tmpl *template.Template) {
 	domainInput := r.FormValue("domains")
 	domains := strings.Split(domainInput, ",")
+
+	// Clear allRecords before performing a new search to avoid accumulating old results
+	allRecords = []DNSRecord{}
 
 	for _, domain := range domains {
 		records, err := LookupDNS(strings.TrimSpace(domain))
@@ -35,9 +38,34 @@ func mod(x, y int) int {
 	return x % y
 }
 
-func main() {
+// ExportHandler handles exporting allRecords to a CSV file
+func ExportHandler(w http.ResponseWriter, r *http.Request) {
+	// Define the file path for the CSV file
+	filePath := "dns_records.csv"
 
-	//load envfile
+	// Export the DNS records to the CSV file
+	err := ExportToCSV(allRecords, filePath)
+	if err != nil {
+		http.Error(w, "Failed to export CSV", http.StatusInternalServerError)
+		return
+	}
+
+	// Set headers to prompt download
+	w.Header().Set("Content-Disposition", "attachment; filename=dns_records.csv")
+	w.Header().Set("Content-Type", "text/csv")
+
+	// Serve the CSV file
+	http.ServeFile(w, r, filePath)
+
+	// Remove the file after serving it
+	err = os.Remove(filePath)
+	if err != nil {
+		log.Printf("Failed to delete file: %v", err)
+	}
+}
+
+func main() {
+	// Load environment variables
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -67,22 +95,8 @@ func main() {
 	})
 
 	// Start the server
-	fmt.Printf(`server running http://localhost%s`, port)
+	fmt.Printf("Server running at http://localhost%s\n", port)
 	if err := http.ListenAndServe(port, nil); err != nil {
 		log.Fatal(err)
 	}
-}
-
-func ExportHandler(w http.ResponseWriter, r *http.Request) {
-	// Assume `dnsRecords` contains the DNS records you want to export
-	filePath := "dns_records.csv"
-	err := ExportToCSV(allRecords, filePath)
-	if err != nil {
-		http.Error(w, "Failed to export CSV", http.StatusInternalServerError)
-		return
-	}
-
-	// Send the CSV file to the user
-	w.Header().Set("Content-Disposition", "attachment; filename=dns_records.csv")
-	http.ServeFile(w, r, filePath)
 }
